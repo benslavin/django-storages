@@ -68,6 +68,10 @@ class AzureStorage(Storage):
         contents = self.connection.get_blob(self.azure_container, name)
         return ContentFile(contents)
 
+    def get_valid_name(self, name):
+        dirty_name = super(AzureStorage, self).get_valid_name(name)
+        return clean_name(dirty_name)
+    
     def exists(self, name):
         return self.__get_blob_properties(name) is not None
 
